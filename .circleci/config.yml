@@ -4,7 +4,15 @@ orbs:
   python: circleci/python@1.5.0
 
 jobs:
-  build-and-test: 
+  build: 
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: requirements.txt
+  test:
     docker:
       - image: cimg/python:3.10.2
     steps:
@@ -15,8 +23,12 @@ jobs:
       - run:
           name: Run tests
           command: python -m unittest app_test
+    
 
 workflows:
   ci-wf:
     jobs:
-      - build-and-test
+      - build
+      - test:
+          requires:
+            - build
