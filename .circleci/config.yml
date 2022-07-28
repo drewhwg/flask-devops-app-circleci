@@ -29,6 +29,7 @@ workflows:
   ci-wf:
     jobs:
       - build
-      - test:
-          requires:
-            - build
+      - test
+      # - test:
+      #     requires:
+      #       - build
